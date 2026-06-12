@@ -1,6 +1,8 @@
 # Contractor Compliance Authority (CCA)
 
-A responsive marketing landing page for a contractor licensing & compliance firm, with a lead-capture form that saves "Schedule My Compliance Review" requests to the database.
+A responsive marketing landing page for a contractor licensing & compliance firm. The "Schedule My Compliance Review" section embeds an external Zoho Forms intake form (https://zfrmz.com/jk9ZDmCyeTP0DAEGem2r) via iframe.
+
+Note: the `/api/leads` Express endpoint + Drizzle `leads` table from the earlier custom form are now orphaned (the page uses the external embed instead). They remain in the codebase but are unused by the frontend.
 
 ## Run & Operate
 

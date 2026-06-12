@@ -1,72 +1,10 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
-import { useCreateLead } from "@workspace/api-client-react";
-import ccaLogo from "@/assets/cca-logo.png";
-import { Shield, Map, ClipboardCheck, Users, CheckCircle2, ChevronRight, FileText, Scale } from "lucide-react";
+import ccaLogo from "@assets/cca-horizontal_1781280688863.png";
+import { Shield, Map, ClipboardCheck, Users, CheckCircle2, FileText, Scale } from "lucide-react";
 import { motion } from "framer-motion";
 
-const STATES = [
-  "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", 
-  "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
-  "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
-  "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
-  "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
-];
-
-const formSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Valid email is required"),
-  phone: z.string().min(1, "Phone is required"),
-  company: z.string().min(1, "Company is required"),
-  service: z.string().min(1, "Service is required"),
-  state: z.string().min(1, "State is required"),
-});
-
 export default function Home() {
-  const { toast } = useToast();
-  const createLead = useCreateLead();
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      service: "",
-      state: "",
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    createLead.mutate(
-      { data: values },
-      {
-        onSuccess: () => {
-          toast({
-            title: "Thank you!",
-            description: "We will contact you shortly.",
-          });
-          form.reset();
-        },
-        onError: () => {
-          toast({
-            variant: "destructive",
-            title: "Submission Failed",
-            description: "Please try again or contact us directly.",
-          });
-        },
-      }
-    );
-  }
-
   const scrollToForm = () => {
     const el = document.getElementById("schedule");
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -77,10 +15,7 @@ export default function Home() {
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#071822]/90 backdrop-blur-md">
         <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <img src={ccaLogo} alt="CCA Logo" className="h-10 w-auto" />
-            <span className="hidden sm:inline-block font-semibold tracking-wide text-white">Contractor Compliance Authority</span>
-          </div>
+          <img src={ccaLogo} alt="Contractor Compliance Authority" className="h-11 w-auto" />
           <Button onClick={scrollToForm} className="bg-primary hover:bg-accent text-white font-medium" data-testid="button-header-cta">
             Schedule Review
           </Button>
@@ -230,132 +165,23 @@ export default function Home() {
 
         {/* Form Section */}
         <section id="schedule" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background to-[#071822]">
-          <div className="container mx-auto max-w-2xl">
+          <div className="container mx-auto max-w-3xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-white mb-4">Schedule My Compliance Review</h2>
               <p className="text-muted-foreground">Fill out the form below and our team will get in touch to discuss your compliance needs.</p>
             </div>
 
-            <Card className="bg-card/50 backdrop-blur border-white/10">
-              <CardContent className="p-6 sm:p-8">
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-white">Full Name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="John Doe" className="bg-background/50 border-white/10 text-white placeholder:text-white/20 focus-visible:ring-primary" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-white">Email Address</FormLabel>
-                            <FormControl>
-                              <Input type="email" placeholder="john@example.com" className="bg-background/50 border-white/10 text-white placeholder:text-white/20 focus-visible:ring-primary" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <FormField
-                        control={form.control}
-                        name="phone"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-white">Phone Number</FormLabel>
-                            <FormControl>
-                              <Input type="tel" placeholder="(555) 123-4567" className="bg-background/50 border-white/10 text-white placeholder:text-white/20 focus-visible:ring-primary" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="company"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-white">Company Name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Acme Construction" className="bg-background/50 border-white/10 text-white placeholder:text-white/20 focus-visible:ring-primary" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <FormField
-                        control={form.control}
-                        name="service"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-white">Service Needed</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger className="bg-background/50 border-white/10 text-white focus:ring-primary">
-                                  <SelectValue placeholder="Select a service" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent className="bg-[#0A1F2F] border-white/10 text-white">
-                                <SelectItem value="License & Renewal Support">License & Renewal Support</SelectItem>
-                                <SelectItem value="Compliance Risk Audit">Compliance Risk Audit</SelectItem>
-                                <SelectItem value="Multi-State Expansion">Multi-State Expansion</SelectItem>
-                                <SelectItem value="Qualifier Support">Qualifier Support</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="state"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-white">State</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger className="bg-background/50 border-white/10 text-white focus:ring-primary">
-                                  <SelectValue placeholder="Select state" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent className="bg-[#0A1F2F] border-white/10 text-white max-h-60">
-                                {STATES.map((state) => (
-                                  <SelectItem key={state} value={state}>{state}</SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-primary hover:bg-accent text-white h-12 text-lg mt-4" 
-                      disabled={createLead.isPending}
-                      data-testid="button-submit-lead"
-                    >
-                      {createLead.isPending ? "Submitting..." : "Submit Request"}
-                    </Button>
-                  </form>
-                </Form>
+            <Card className="bg-card/50 backdrop-blur border-white/10 overflow-hidden">
+              <CardContent className="p-2 sm:p-3">
+                <div className="overflow-hidden rounded-lg bg-white">
+                  <iframe
+                    title="Schedule My Compliance Review"
+                    src="https://zfrmz.com/jk9ZDmCyeTP0DAEGem2r"
+                    className="w-full block border-0 h-[1100px] sm:h-[1000px]"
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                  />
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -367,7 +193,7 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-center md:text-left">
             <div className="flex flex-col items-center md:items-start">
-              <img src={ccaLogo} alt="CCA Logo" className="h-10 w-auto mb-4 opacity-80" />
+              <img src={ccaLogo} alt="Contractor Compliance Authority" className="h-10 w-auto mb-4 opacity-90" />
               <p className="text-sm text-muted-foreground">© 2026 Contractor Compliance Authority</p>
             </div>
             

@@ -5,8 +5,11 @@ import { RiskGauge } from "@/components/risk-gauge";
 import ccaLogo from "@assets/cca-horizontal_1781280688863.png";
 import ccaIcon from "@assets/cca-icon_1781280688863.png";
 import ccaCrest from "@assets/cca-crest_1781280688863.png";
+import heroCityHorizon from "@assets/generated_images/hero-city-horizon.png";
+import particleField from "@assets/generated_images/bg-particle-field.png";
+import { EcosystemDiagram } from "@/components/ecosystem-diagram";
 import { Shield, Map, ClipboardCheck, Users, CheckCircle2, FileText, Scale, ArrowRight, ArrowUpRight, Activity, X, Award } from "lucide-react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef, useMemo } from "react";
 import { getZohoFormSrc } from "@/lib/zoho";
 
@@ -58,6 +61,10 @@ function ScoreBar({ label, value, delay = 0 }: { label: string; value: number; d
 }
 
 export default function Home() {
+  const reduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
+  const heroParallaxY = useTransform(scrollY, [0, 600], [0, -80]);
+
   const scrollToForm = () => {
     const el = document.getElementById("schedule");
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -118,7 +125,29 @@ export default function Home() {
       <main className="flex-1 relative z-10">
         {/* Hero Section */}
         <section className="relative px-4 pt-32 pb-32 sm:px-6 lg:px-8 overflow-hidden min-h-[90vh] flex items-center">
-          <div className="absolute inset-0 bg-dot-pattern opacity-20 mask-image-radial-gradient"></div>
+          {/* Cinematic full-bleed hero background with parallax */}
+          <motion.div
+            aria-hidden="true"
+            className="absolute inset-x-0 -top-24 -bottom-24 z-0"
+            style={reduceMotion ? undefined : { y: heroParallaxY }}
+          >
+            <img src={heroCityHorizon} alt="" className="h-full w-full object-cover opacity-40" />
+          </motion.div>
+
+          {/* Drifting particle / glow overlay */}
+          <motion.img
+            src={particleField}
+            aria-hidden="true"
+            alt=""
+            className="absolute -inset-10 z-0 object-cover opacity-[0.15] mix-blend-screen pointer-events-none"
+            animate={reduceMotion ? undefined : { x: [0, 20, 0], y: [0, -15, 0] }}
+            transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          {/* Legibility scrim */}
+          <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/70 via-background/55 to-background pointer-events-none"></div>
+
+          <div className="absolute inset-0 z-0 bg-dot-pattern opacity-20 mask-image-radial-gradient"></div>
           
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -384,6 +413,14 @@ export default function Home() {
                 </div>
               </Reveal>
             </div>
+
+            {/* One connected technology ecosystem */}
+            <Reveal className="mt-24 text-center">
+              <div className="text-primary text-xs font-bold uppercase tracking-widest mb-4">Built On One Platform</div>
+              <h3 className="text-3xl font-bold text-white mb-4">One Connected CCA Technology Ecosystem</h3>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-10">Every part of your compliance journey runs on a single, integrated system — from intake to audit readiness.</p>
+              <EcosystemDiagram className="w-full max-w-4xl mx-auto h-auto" />
+            </Reveal>
           </div>
         </section>
 

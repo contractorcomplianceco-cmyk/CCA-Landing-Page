@@ -1,0 +1,67 @@
+You can drop this into your landing page React project:
+
+// src/pages/home.tsx
+import React from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+
+// Assets
+import HeroA from '@assets/generated_images/hero-city-horizon.png';
+import ParticleLayer from '@assets/generated_images/bg-particle-field.png';
+import EcosystemSVG from '@assets/cca-visuals/cca-ecosystem-diagram.svg';
+
+export default function HomePage() {
+  const { scrollY } = useScroll();
+  const shouldReduceMotion = useReducedMotion();
+  const y = useTransform(scrollY, [0, 500], [0, -80]);
+
+  return (
+    <div className="relative overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative h-[80vh] flex items-center justify-center">
+        {/* Hero background */}
+        <motion.img
+          src={HeroA}
+          alt="City Horizon Hero"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={shouldReduceMotion ? {} : { y }}
+        />
+        {/* Particle overlay */}
+        {!shouldReduceMotion && (
+          <motion.img
+            src={ParticleLayer}
+            alt="Particle/Glow Overlay"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            animate={{ x: [0, 20, 0], y: [0, -15, 0] }}
+            transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        )}
+        {/* Hero content */}
+        <div className="relative z-10 text-center text-white px-4">
+          <h1 className="text-5xl md:text-7xl font-bold">Welcome to CCA</h1>
+          <p className="mt-4 text-xl md:text-2xl">
+            One connected ecosystem for contractors
+          </p>
+        </div>
+      </section>
+
+      {/* Ecosystem Section */}
+      <section className="relative py-20 flex flex-col items-center justify-center bg-white">
+        <h2 className="text-4xl font-bold mb-8 text-center">One Connected Ecosystem</h2>
+        <motion.img
+          src={EcosystemSVG}
+          alt="CCA Ecosystem Diagram"
+          className="w-full max-w-5xl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2 }}
+        />
+      </section>
+    </div>
+  );
+}
+What this does
+Hero A is full-bleed background with parallax scroll.
+Particle Layer floats slowly across the screen for cinematic depth.
+Ecosystem SVG is centered, responsive, and fades in.
+Motion respects reduced motion settings for accessibility.
+Ready to preview in Replit dev window immediately.

@@ -79,9 +79,18 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-background text-foreground overflow-hidden selection:bg-primary/30">
       {/* Background elements */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-grid-pattern opacity-30"></div>
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/3"></div>
+        {/* Layered gradient base */}
+        <div className="app-bg absolute inset-0"></div>
+        {/* Masked perspective grid */}
+        <div className="bg-grid-pattern grid-fade absolute inset-0 opacity-40"></div>
+        {/* Animated aurora glows */}
+        <div className="animate-aurora-1 absolute -top-40 right-0 h-[700px] w-[700px] translate-x-1/4 rounded-full bg-[#2d7dff]/15 blur-[130px]"></div>
+        <div className="animate-aurora-2 absolute -bottom-48 -left-32 h-[600px] w-[600px] rounded-full bg-primary/12 blur-[120px]"></div>
+        <div className="animate-aurora-3 absolute top-1/3 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-[#1F6FEB]/10 blur-[140px]"></div>
+        {/* Film grain */}
+        <div className="bg-noise absolute inset-0 opacity-[0.035] mix-blend-overlay"></div>
+        {/* Edge vignette */}
+        <div className="bg-vignette absolute inset-0"></div>
       </div>
 
       {/* Header */}

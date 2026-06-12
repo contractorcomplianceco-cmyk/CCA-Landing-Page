@@ -4,6 +4,8 @@ A responsive marketing landing page for a contractor licensing & compliance firm
 
 Note: the `/api/leads` Express endpoint + Drizzle `leads` table from the earlier custom form are now orphaned (the page uses the external embed instead). They remain in the codebase but are unused by the frontend.
 
+Routing (wouter): `/` → Home, `/thank-you` → ThankYou (post-submission page), catch-all → NotFound. The thank-you page fires a GA4 `generate_lead` conversion only when reached with a `?submitted=1` (or `?src=zoho-success`) marker. The Zoho form's post-submission redirect must be set (Zoho-side) to `https://contractors.ccacontact.com/thank-you?submitted=1` to connect the submit flow. Google Analytics base tag (`G-WKNFPFE43G`) lives in `index.html` and loads site-wide.
+
 ## Run & Operate
 
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)

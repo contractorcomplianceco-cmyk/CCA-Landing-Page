@@ -8,6 +8,7 @@ import ccaCrest from "@assets/cca-crest_1781280688863.png";
 import { Shield, Map, ClipboardCheck, Users, CheckCircle2, FileText, Scale, ArrowRight, ArrowUpRight, Activity, X, Award } from "lucide-react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef, useMemo } from "react";
+import { getZohoFormSrc } from "@/lib/zoho";
 
 function Reveal({
   children,
@@ -75,27 +76,7 @@ export default function Home() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } }
   };
 
-  const formSrc = useMemo(() => {
-    const base =
-      "https://forms.zohopublic.com/ccaforms/form/CCAShortLeadIntakeForm/formperma/RNgtmYPeYa7-ztIWdk8uDiy1lSq6H80ZCNPxha5lViI";
-    try {
-      // Use origin + pathname only — strip query/hash so no sensitive URL data leaks to the third-party form.
-      let rfr = "";
-      try {
-        const loc = window.self !== window.top ? window.top!.location : window.location;
-        rfr = `${loc.origin}${loc.pathname}`;
-      } catch {
-        const loc = window.location;
-        rfr = `${loc.origin}${loc.pathname}`;
-      }
-      if (rfr && /^https?:\/\//i.test(rfr)) {
-        return `${base}?referrername=${encodeURIComponent(rfr.slice(0, 1800))}`;
-      }
-    } catch {
-      /* fall through to base */
-    }
-    return base;
-  }, []);
+  const formSrc = useMemo(() => getZohoFormSrc(), []);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground overflow-hidden selection:bg-primary/30">
@@ -543,15 +524,46 @@ export default function Home() {
         <section id="schedule" className="py-32 px-4 sm:px-6 lg:px-8 relative border-t border-white/5">
           <div className="absolute inset-0 bg-primary/5"></div>
           <div className="container mx-auto max-w-4xl relative z-10">
-            <div className="text-center mb-16">
-              <div className="text-primary text-xs font-bold uppercase tracking-widest mb-4">Initialize</div>
+            <Reveal className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">
+                <Activity className="w-3.5 h-3.5" />
+                <span>Initialize</span>
+              </div>
               <h2 className="text-4xl font-bold text-white mb-6">Schedule Your Compliance Review</h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Provide your details below to initialize a comprehensive review of your current licensing and compliance standing.</p>
-            </div>
+            </Reveal>
 
-            <div className="rounded-2xl overflow-hidden relative">
-              <div className="rounded-xl overflow-hidden relative">
-                {/* Ensure iframe renders properly with plenty of height */}
+            {/* Public-appropriate trust signals */}
+            <Reveal className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mb-10" delay={0.1}>
+              {[
+                { icon: Shield, label: "Secure & confidential" },
+                { icon: CheckCircle2, label: "No obligation" },
+                { icon: Activity, label: "Response within 1 business day" },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <item.icon className="w-4 h-4 text-primary" />
+                  <span>{item.label}</span>
+                </div>
+              ))}
+            </Reveal>
+
+            {/* Clean form frame — subtle bordered panel, top accent bar, no heavy white box */}
+            <Reveal delay={0.15}>
+              <div className="glass-panel rounded-2xl border border-primary/20 shadow-2xl shadow-black/40 overflow-hidden">
+                <div className="h-1 w-full bg-gradient-to-r from-primary/0 via-primary to-primary/0"></div>
+                <div className="flex items-center justify-between gap-3 px-5 py-3 border-b border-white/5 bg-white/[0.02]">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                    <FileText className="w-3.5 h-3.5 text-primary" />
+                    <span>Compliance Review Request</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-xs text-primary">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 animate-ping"></span>
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-primary"></span>
+                    </span>
+                    <span className="font-semibold">Secure intake</span>
+                  </div>
+                </div>
                 <iframe
                   title="CCA Short Lead Intake Form"
                   aria-label="CCA Short Lead Intake Form"
@@ -561,7 +573,7 @@ export default function Home() {
                   referrerPolicy="strict-origin-when-cross-origin"
                 />
               </div>
-            </div>
+            </Reveal>
           </div>
         </section>
       </main>

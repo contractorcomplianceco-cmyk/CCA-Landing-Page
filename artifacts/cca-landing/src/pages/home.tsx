@@ -1,9 +1,60 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { CountUp } from "@/components/count-up";
+import { RiskGauge } from "@/components/risk-gauge";
 import ccaLogo from "@assets/cca-horizontal_1781280688863.png";
 import ccaIcon from "@assets/cca-icon_1781280688863.png";
-import { Shield, Map, ClipboardCheck, Users, CheckCircle2, FileText, Scale, ArrowRight, ArrowUpRight, Activity } from "lucide-react";
-import { motion } from "framer-motion";
+import ccaCrest from "@assets/cca-crest_1781280688863.png";
+import { Shield, Map, ClipboardCheck, Users, CheckCircle2, FileText, Scale, ArrowRight, ArrowUpRight, Activity, X, Award } from "lucide-react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
+
+function Reveal({
+  children,
+  className,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const reduceMotion = useReducedMotion();
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={reduceMotion ? { opacity: 0, y: 0 } : { opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : reduceMotion ? { opacity: 0, y: 0 } : { opacity: 0, y: 28 }}
+      transition={{ duration: reduceMotion ? 0.3 : 0.6, ease: "easeOut", delay: reduceMotion ? 0 : delay }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function ScoreBar({ label, value, delay = 0 }: { label: string; value: number; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const color = value >= 80 ? "bg-primary" : value >= 65 ? "bg-yellow-500" : "bg-destructive";
+  return (
+    <div ref={ref}>
+      <div className="mb-2 flex items-center justify-between">
+        <span className="text-sm font-medium text-white">{label}</span>
+        <span className="text-sm font-mono font-bold text-muted-foreground">{value}</span>
+      </div>
+      <div className="h-2 w-full overflow-hidden rounded-full bg-white/5">
+        <motion.div
+          className={`h-full rounded-full ${color}`}
+          initial={{ width: 0 }}
+          animate={inView ? { width: `${value}%` } : { width: 0 }}
+          transition={{ duration: 1.1, ease: "easeOut", delay }}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const scrollToForm = () => {
@@ -176,16 +227,42 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Stats Band */}
+        <section className="relative border-y border-white/5 bg-background/40 py-16 px-4 sm:px-6 lg:px-8">
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { icon: Users, value: 10000, suffix: "+", label: "Contractors Helped" },
+                { icon: CheckCircle2, value: 98, suffix: "%", label: "Approval Success Rate" },
+                { icon: Award, value: 15, suffix: "+", label: "Years of Experience" },
+                { icon: Map, value: 50, suffix: "", label: "States Supported" },
+              ].map((stat, i) => (
+                <Reveal key={i} delay={i * 0.1} className="text-center">
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-primary/20 bg-primary/10">
+                    <stat.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <div className="text-4xl sm:text-5xl font-bold text-white">
+                    <CountUp end={stat.value} suffix={stat.suffix} />
+                  </div>
+                  <div className="mt-2 text-xs sm:text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+                    {stat.label}
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Why Choose CCA / Services */}
         <section id="services" className="py-32 px-4 sm:px-6 lg:px-8 relative border-t border-white/5">
           <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <Reveal className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div className="max-w-2xl">
                 <div className="text-primary text-xs font-bold uppercase tracking-widest mb-4">Core Capabilities</div>
                 <h2 className="text-4xl font-bold text-white mb-4">Unmatched Compliance Infrastructure</h2>
                 <p className="text-muted-foreground text-lg">Expert guidance across every phase of licensing and compliance, powered by data and executed by specialists.</p>
               </div>
-            </div>
+            </Reveal>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
@@ -210,16 +287,90 @@ export default function Home() {
                   desc: "Placement, changes, and documentation for all qualifying parties across state boards."
                 }
               ].map((svc, i) => (
-                <Card key={i} className="glass-panel border-white/5 hover:border-primary/40 transition-all duration-300 group">
-                  <CardContent className="p-10">
-                    <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-8 border border-primary/20 group-hover:bg-primary/20 transition-colors">
-                      <svc.icon className="h-7 w-7 text-primary" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">{svc.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed text-lg">{svc.desc}</p>
-                  </CardContent>
-                </Card>
+                <Reveal key={i} delay={i * 0.1}>
+                  <motion.div whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="h-full">
+                    <Card className="glass-panel border-white/5 hover:border-primary/40 transition-all duration-300 group h-full">
+                      <CardContent className="p-10">
+                        <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-8 border border-primary/20 group-hover:bg-primary/20 transition-colors">
+                          <svc.icon className="h-7 w-7 text-primary" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-4">{svc.title}</h3>
+                        <p className="text-muted-foreground leading-relaxed text-lg">{svc.desc}</p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </Reveal>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* The CCA Difference */}
+        <section className="py-32 px-4 sm:px-6 lg:px-8 relative border-t border-white/5">
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <Reveal className="text-center mb-16">
+              <div className="text-primary text-xs font-bold uppercase tracking-widest mb-4">Why It Matters</div>
+              <h2 className="text-4xl font-bold text-white mb-4">The CCA Difference</h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">We go beyond license processing. We build <span className="text-gradient-blue font-semibold">compliance confidence</span>.</p>
+            </Reveal>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative">
+              {/* VS badge */}
+              <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 h-14 w-14 items-center justify-center rounded-full bg-background border border-primary/40 text-sm font-bold text-white shadow-lg shadow-black/40">
+                VS
+              </div>
+
+              {/* Normal company */}
+              <Reveal>
+                <div className="h-full rounded-2xl border border-white/10 bg-white/[0.02] p-8">
+                  <div className="mb-8 text-sm font-bold uppercase tracking-widest text-muted-foreground">A Normal License Processing Company</div>
+                  <ul className="space-y-5">
+                    {[
+                      "Fills out forms and submits applications.",
+                      "Sends documents to the board.",
+                      "Tracks the status of the application.",
+                      "Waits for board approval.",
+                      "Transaction-focused and reactive.",
+                      "Helps with the license — and that's where it ends.",
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-3 text-muted-foreground">
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
+                          <X className="h-3 w-3 text-muted-foreground" />
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+
+              {/* CCA */}
+              <Reveal delay={0.15}>
+                <div className="h-full rounded-2xl glass-panel border-primary/30 p-8 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-60"></div>
+                  <div className="mb-8 text-sm font-bold uppercase tracking-widest text-gradient-blue">Contractor Compliance Authority</div>
+                  <ul className="space-y-5">
+                    {[
+                      { t: "Strategic Compliance Planning", d: "We build a plan that supports long-term success." },
+                      { t: "Document Readiness & Gap Review", d: "We identify what's missing and organize it the right way." },
+                      { t: "Ongoing Compliance Support", d: "We help you stay compliant after approval." },
+                      { t: "Risk Management & Operational Support", d: "We reduce risk and strengthen operations." },
+                      { t: "Partner Approach", d: "We become an extension of your team." },
+                      { t: "Focused On Your Future", d: "We help you build a scalable, compliant business." },
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/20 border border-primary/30">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
+                        </span>
+                        <span>
+                          <span className="block font-semibold text-white">{item.t}</span>
+                          <span className="text-sm text-muted-foreground">{item.d}</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
             </div>
           </div>
         </section>
@@ -227,10 +378,10 @@ export default function Home() {
         {/* How It Works */}
         <section id="how-it-works" className="py-32 px-4 sm:px-6 lg:px-8 relative bg-background/50 border-y border-white/5">
           <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="text-center mb-20">
+            <Reveal className="text-center mb-20">
               <div className="text-primary text-xs font-bold uppercase tracking-widest mb-4">Execution Protocol</div>
               <h2 className="text-4xl font-bold text-white mb-4">Clear Next Steps Instead of Guesswork</h2>
-            </div>
+            </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {[
@@ -239,7 +390,7 @@ export default function Home() {
                 { step: "03", title: "Action Roadmap", desc: "Structured steps and priorities to achieve 100% compliance." },
                 { step: "04", title: "Execution", desc: "Expert human assistance for applications, renewals, and monitoring." }
               ].map((step, i) => (
-                <div key={i} className="relative group">
+                <Reveal key={i} delay={i * 0.1} className="relative group">
                   <div className="absolute top-0 left-0 w-full h-[1px] bg-white/10">
                     <div className="h-full bg-primary w-0 group-hover:w-full transition-all duration-500 ease-out"></div>
                   </div>
@@ -248,17 +399,63 @@ export default function Home() {
                     <h4 className="text-xl font-bold text-white mb-3">{step.title}</h4>
                     <p className="text-muted-foreground leading-relaxed">{step.desc}</p>
                   </div>
-                </div>
+                </Reveal>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Compliance Risk Snapshot */}
+        <section className="py-32 px-4 sm:px-6 lg:px-8 relative">
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <Reveal className="text-center mb-16">
+              <div className="text-primary text-xs font-bold uppercase tracking-widest mb-4">Compliance Intelligence</div>
+              <h2 className="text-4xl font-bold text-white mb-4">Know Your Compliance Risk Score</h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Our proprietary systems and expert team monitor the details that matter — so you can focus on building your business.</p>
+            </Reveal>
+
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+              <Reveal className="lg:col-span-2">
+                <div className="glass-panel rounded-2xl p-10 flex flex-col items-center">
+                  <RiskGauge
+                    score={87}
+                    label="Compliance Readiness"
+                    caption="A live composite across licensing, filings, insurance, and document health."
+                  />
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.15} className="lg:col-span-3">
+                <div className="glass-panel rounded-2xl p-8 sm:p-10">
+                  <div className="mb-8 flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-white">Category Scorecard</h3>
+                    <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Reviewed Areas</span>
+                  </div>
+                  <div className="space-y-6">
+                    {[
+                      { label: "Licensing & Registrations", value: 92 },
+                      { label: "Entity Filings", value: 74 },
+                      { label: "Insurance & Bonding", value: 68 },
+                      { label: "Document Readiness", value: 81 },
+                      { label: "Operational Gaps", value: 55 },
+                    ].map((cat, i) => (
+                      <ScoreBar key={i} label={cat.label} value={cat.value} delay={i * 0.08} />
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
             </div>
           </div>
         </section>
 
         {/* Core Benefits & Who We Serve */}
         <section id="about" className="py-32 px-4 sm:px-6 lg:px-8 relative">
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none opacity-[0.04] hidden lg:block">
+            <img src={ccaCrest} alt="" className="w-[520px] h-auto" />
+          </div>
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div>
+              <Reveal>
                 <div className="text-primary text-xs font-bold uppercase tracking-widest mb-4">Target Audience</div>
                 <h3 className="text-3xl font-bold text-white mb-6">Built for Serious Contractors</h3>
                 <p className="text-muted-foreground mb-8 leading-relaxed text-lg">
@@ -266,15 +463,15 @@ export default function Home() {
                 </p>
                 <div className="space-y-4">
                   {["General Contractors", "Specialty Trades (HVAC, Electrical, Plumbing)", "Firms expanding multi-state", "Compliance Directors & Legal Teams"].map((item, i) => (
-                    <div key={i} className="flex items-center p-4 rounded-lg bg-white/5 border border-white/5">
+                    <div key={i} className="flex items-center p-4 rounded-lg bg-white/5 border border-white/5 hover:border-primary/30 transition-colors">
                       <CheckCircle2 className="h-5 w-5 text-primary mr-4 shrink-0" />
                       <span className="text-white font-medium">{item}</span>
                     </div>
                   ))}
                 </div>
-              </div>
+              </Reveal>
               
-              <div className="glass-panel p-10 rounded-2xl relative overflow-hidden">
+              <Reveal delay={0.15} className="glass-panel p-10 rounded-2xl relative overflow-hidden">
                 <div className="absolute inset-0 bg-dot-pattern opacity-10"></div>
                 <h3 className="text-2xl font-bold text-white mb-8 relative z-10">The CCA Advantage</h3>
                 <div className="space-y-8 relative z-10">
@@ -306,7 +503,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </div>
           </div>
         </section>

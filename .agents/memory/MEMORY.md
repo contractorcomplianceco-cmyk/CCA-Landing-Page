@@ -1,0 +1,1 @@
+- [Image-gen placeholder text](image-gen-text-artifacts.md) — generated hero/banner backgrounds get placeholder words baked in unless the prompt itself says "no text"; inspect & regenerate.

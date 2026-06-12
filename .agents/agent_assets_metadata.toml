@@ -1,0 +1,73 @@
+uploads = []
+
+[[generated]]
+id = "pmezH6Pg9yKLJPazoUlu0"
+uri = "file://attached_assets/generated_images/hero-city-horizon.png"
+type = "image"
+title = "hero city horizon"
+
+[[generated]]
+id = "891ckj1uIMUM4_HcaSJK0"
+uri = "file://attached_assets/generated_images/hero-command-aurora.png"
+type = "image"
+title = "hero command aurora"
+
+[[generated]]
+id = "Ab8Fvu_5-jq6L054eqbZa"
+uri = "file://attached_assets/generated_images/hero-crest-glow.png"
+type = "image"
+title = "hero crest glow"
+
+[[generated]]
+id = "iuUww-9kCF1CJah82lyCt"
+uri = "file://attached_assets/generated_images/cta-band-skyline.png"
+type = "image"
+title = "cta band skyline"
+
+[[generated]]
+id = "9WkwEyEgnjANj2CQXzrhB"
+uri = "file://attached_assets/generated_images/bg-particle-field.png"
+type = "image"
+title = "particle glow layer"
+
+[[outputs]]
+id = "2o5mlMyUZ_VL-JyNT-VsZ"
+uri = "file://attached_assets/generated_images/hero-city-horizon.png"
+type = "image"
+title = "Hero Variation A — City Horizon"
+
+[[outputs]]
+id = "fyS9dr0KjWzIraigYNMzi"
+uri = "file://attached_assets/generated_images/hero-command-aurora.png"
+type = "image"
+title = "Hero Variation B — Command Aurora"
+
+[[outputs]]
+id = "2GGCNXPtiVN8T-pnXSP28"
+uri = "file://attached_assets/generated_images/hero-crest-glow.png"
+type = "image"
+title = "Hero Variation C — Crest Glow (backdrop for emblem)"
+
+[[outputs]]
+id = "aLG_srGSTP4fFP8p0jwew"
+uri = "file://attached_assets/generated_images/cta-band-skyline.png"
+type = "image"
+title = "CTA Section Band — Skyline"
+
+[[outputs]]
+id = "qxxs5O3DdFqRILhmLhWdL"
+uri = "file://attached_assets/generated_images/bg-particle-field.png"
+type = "image"
+title = "Background Layer — Particle / Glow Field"
+
+[[outputs]]
+id = "-Za-9ckb7Pg0oCCT9Z4zk"
+uri = "file://attached_assets/cca-visuals/cca-ecosystem-diagram.svg"
+type = "image"
+title = "Ecosystem Diagram (SVG, scalable)"
+
+[[outputs]]
+id = "lOAxw7TFeYcrsO6CNb56U"
+uri = "file://attached_assets/cca-visuals/cca-blueprint-grid.svg"
+type = "image"
+title = "Background Layer — Blueprint Grid (SVG)"

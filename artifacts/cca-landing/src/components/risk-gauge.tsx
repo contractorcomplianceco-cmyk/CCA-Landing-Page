@@ -84,7 +84,7 @@ export function RiskGauge({
 
       <div className="-mt-6 text-center">
         <div className="text-5xl font-bold text-gradient-blue leading-none">
-          <CountUp end={score} duration={1.6} />
+          <CountUp end={safeScore} duration={1.6} />
         </div>
         <div className="mt-2 text-xs font-bold uppercase tracking-widest text-primary">
           {label}

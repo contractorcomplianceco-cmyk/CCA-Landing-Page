@@ -7,7 +7,7 @@ import ccaIcon from "@assets/cca-icon_1781280688863.png";
 import ccaCrest from "@assets/cca-crest_1781280688863.png";
 import { Shield, Map, ClipboardCheck, Users, CheckCircle2, FileText, Scale, ArrowRight, ArrowUpRight, Activity, X, Award } from "lucide-react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 
 function Reveal({
   children,
@@ -74,6 +74,28 @@ export default function Home() {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } }
   };
+
+  const formSrc = useMemo(() => {
+    const base =
+      "https://forms.zohopublic.com/ccaforms/form/CCAShortLeadIntakeForm/formperma/RNgtmYPeYa7-ztIWdk8uDiy1lSq6H80ZCNPxha5lViI";
+    try {
+      // Use origin + pathname only — strip query/hash so no sensitive URL data leaks to the third-party form.
+      let rfr = "";
+      try {
+        const loc = window.self !== window.top ? window.top!.location : window.location;
+        rfr = `${loc.origin}${loc.pathname}`;
+      } catch {
+        const loc = window.location;
+        rfr = `${loc.origin}${loc.pathname}`;
+      }
+      if (rfr && /^https?:\/\//i.test(rfr)) {
+        return `${base}?referrername=${encodeURIComponent(rfr.slice(0, 1800))}`;
+      }
+    } catch {
+      /* fall through to base */
+    }
+    return base;
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground overflow-hidden selection:bg-primary/30">
@@ -531,8 +553,9 @@ export default function Home() {
               <div className="bg-white rounded-xl overflow-hidden relative">
                 {/* Ensure iframe renders properly with plenty of height */}
                 <iframe
-                  title="Schedule My Compliance Review"
-                  src="https://zfrmz.com/jk9ZDmCyeTP0DAEGem2r"
+                  title="CCA Short Lead Intake Form"
+                  aria-label="CCA Short Lead Intake Form"
+                  src={formSrc}
                   className="w-full block border-0 h-[1100px] sm:h-[1000px] bg-white"
                   loading="lazy"
                   referrerPolicy="strict-origin-when-cross-origin"

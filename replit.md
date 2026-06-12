@@ -1,6 +1,6 @@
-# [Project name]
+# Contractor Compliance Authority (CCA)
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A responsive marketing landing page for a contractor licensing & compliance firm, with a lead-capture form that saves "Schedule My Compliance Review" requests to the database.
 
 ## Run & Operate
 

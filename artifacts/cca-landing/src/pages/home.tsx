@@ -549,14 +549,14 @@ export default function Home() {
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Provide your details below to initialize a comprehensive review of your current licensing and compliance standing.</p>
             </div>
 
-            <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl shadow-black p-2 sm:p-4 border-primary/30">
-              <div className="bg-white rounded-xl overflow-hidden relative">
+            <div className="rounded-2xl overflow-hidden relative">
+              <div className="rounded-xl overflow-hidden relative">
                 {/* Ensure iframe renders properly with plenty of height */}
                 <iframe
                   title="CCA Short Lead Intake Form"
                   aria-label="CCA Short Lead Intake Form"
                   src={formSrc}
-                  className="w-full block border-0 h-[1100px] sm:h-[1000px] bg-white"
+                  className="w-full block border-0 h-[1100px] sm:h-[1000px]"
                   loading="lazy"
                   referrerPolicy="strict-origin-when-cross-origin"
                 />

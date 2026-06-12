@@ -1,0 +1,60 @@
+Restyle the Zoho Form landing page so it matches the upgraded Command Center / CCA visual standard.
+
+Context:
+Rose said the Zoho form landing page is throwing everything off visually. The functionality may be fine, but the page does not match the stronger design level used elsewhere in the Command Center and newer pages.
+
+Goal:
+Upgrade the landing page styling and layout around the embedded/linked Zoho form so it feels polished, CCA-branded, modern, and consistent with the better pages already built.
+
+Important:
+- Do not break the Zoho Form.
+- Do not change the Zoho form fields, field names, integrations, CRM mapping, Deluge, or submission behavior.
+- Do not change backend/API/auth.
+- Do not add new external integrations.
+- This is a frontend/design polish task.
+
+First:
+1. Inspect the current Zoho form landing page.
+2. Inspect the strongest existing pages/components in this project for visual direction.
+3. Reuse existing design tokens, spacing, typography, buttons, cards, nav/header patterns, and CCA branding.
+4. Identify what is making the current landing page feel off.
+
+Design requirements:
+- Make the page feel like part of the same CCA Command Center system.
+- Use clean CCA branding: navy, blue, white, silver/gray, professional accents.
+- Avoid yellow/gold-heavy styling.
+- Avoid generic plain form-page styling.
+- Make the form area feel intentional, not pasted in.
+- Add a strong but compact header area that explains what the form is for.
+- Keep the first screen useful; do not turn it into a marketing page.
+- If the Zoho form is embedded, frame it cleanly without huge nested cards.
+- If the Zoho form is linked instead of embedded, create a polished launch panel with a clear “Open Form” action and context.
+- Add trust/usage notes in plain language:
+  - Internal QA / qualifying agent intake
+  - Information routes to CRM
+  - Uploads should be tested before live use
+- Make mobile layout clean and readable.
+- No overlapping, clipped, or tiny text.
+- All buttons/links must be obvious and clickable.
+
+Specific needs for this page:
+- It should support Jestina/Carmen using the QA / Qualifying Agent form workflow.
+- It should make clear what the person is supposed to do.
+- It should explain that uploads/attachments must be tested before relying on the flow.
+- It should visually fit with the Command Center, not feel like an unrelated Zoho page dropped in.
+
+QA:
+1. Run typecheck/build.
+2. Open the landing page on desktop and mobile.
+3. Confirm the Zoho form still loads or the form link still opens.
+4. Confirm no console errors.
+5. Confirm no routing/sidebar/header regression.
+6. Confirm submission behavior was not changed.
+7. Provide screenshots or exact visual verification notes.
+
+Report:
+- What page/file was updated
+- What visual issues were fixed
+- Whether the Zoho form is embedded or linked
+- How to test it
+- Any remaining issues

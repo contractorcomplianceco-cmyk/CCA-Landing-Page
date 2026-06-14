@@ -3,13 +3,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CountUp } from "@/components/count-up";
 import { RiskGauge } from "@/components/risk-gauge";
 import ccaLogo from "@assets/cca-horizontal_1781280688863.png";
-import ccaIcon from "@assets/cca-icon_1781280688863.png";
 import ccaCrest from "@assets/cca-crest_1781280688863.png";
 import heroCityHorizon from "@assets/generated_images/hero-city-horizon.png";
 import particleField from "@assets/generated_images/bg-particle-field.png";
 import { EcosystemDiagram } from "@/components/ecosystem-diagram";
 import { SiteHeader } from "@/components/site-header";
-import { Shield, Map, ClipboardCheck, Users, CheckCircle2, FileText, Scale, ArrowRight, ArrowUpRight, Activity, X, Award } from "lucide-react";
+import { HeroPanel } from "@/components/hero-panel";
+import { Shield, ShieldCheck, Map, ClipboardCheck, Users, CheckCircle2, FileText, Scale, ArrowRight, ArrowUpRight, Activity, X, Award } from "lucide-react";
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef, useMemo } from "react";
 import { getZohoFormSrc } from "@/lib/zoho";
@@ -169,86 +169,31 @@ export default function Home() {
                     variant="ghost" 
                     size="lg"
                     onClick={() => {
-                      document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
+                      document.getElementById("services")?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
                     }}
                     className="h-14 px-8 text-sm font-bold uppercase tracking-wider text-muted-foreground hover:text-white flex items-center gap-2"
                   >
                     Explore Platform <ArrowUpRight className="w-4 h-4" />
                   </Button>
                 </motion.div>
+
+                {/* Credibility strip */}
+                <motion.div variants={itemVariants} className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/5 pt-6">
+                  {[
+                    { icon: ShieldCheck, label: "Licensed Specialists" },
+                    { icon: Map, label: "50-State Coverage" },
+                    { icon: CheckCircle2, label: "98% Approval Rate" },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <item.icon className="h-4 w-4 text-primary" />
+                      <span>{item.label}</span>
+                    </div>
+                  ))}
+                </motion.div>
               </motion.div>
 
-              {/* Hero Visual - Intelligence Panel Mockup */}
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95, x: 20 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative hidden lg:block"
-              >
-                <div className="glass-panel rounded-2xl p-6 relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
-                  
-                  <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-                    <div className="flex items-center gap-3">
-                      <img src={ccaIcon} alt="" className="w-8 h-8 opacity-80" />
-                      <div>
-                        <div className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">System Status</div>
-                        <div className="text-white font-medium flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                          Monitoring Active
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">Coverage</div>
-                      <div className="text-primary font-mono font-bold text-lg">50 STATES</div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    {[
-                      { state: "California", status: "Healthy", type: "Active", color: "bg-primary" },
-                      { state: "Texas", status: "Review Required", type: "Expiring soon", color: "bg-yellow-500" },
-                      { state: "Florida", status: "At Risk", type: "Missing Docs", color: "bg-destructive" },
-                    ].map((item, i) => (
-                      <div key={i} className="bg-background/50 rounded-lg p-4 border border-white/5 flex items-center justify-between hover:border-primary/30 transition-colors">
-                        <div className="flex items-center gap-4">
-                          <div className={`w-2 h-2 rounded-full ${item.color} shadow-[0_0_10px_currentColor]`}></div>
-                          <div>
-                            <div className="text-white font-medium">{item.state}</div>
-                            <div className="text-xs text-muted-foreground">{item.type}</div>
-                          </div>
-                        </div>
-                        <div className="text-xs font-mono px-2 py-1 rounded bg-white/5 text-white/80 border border-white/10">
-                          {item.status}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-6 pt-6 border-t border-white/10 grid grid-cols-2 gap-4">
-                    <div>
-                      <div className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Total Licenses</div>
-                      <div className="text-3xl font-light text-white">142</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Action Items</div>
-                      <div className="text-3xl font-light text-gradient-blue">7</div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Floating decor */}
-                <div className="absolute -bottom-6 -right-6 glass-panel rounded-lg p-4 w-48 animate-pulse" style={{ animationDuration: '4s' }}>
-                  <div className="flex items-center gap-3">
-                    <Shield className="w-6 h-6 text-primary" />
-                    <div>
-                      <div className="text-[10px] text-muted-foreground uppercase tracking-widest">Risk Level</div>
-                      <div className="text-sm font-bold text-white">Optimized</div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+              {/* Hero Visual - Live Intelligence Panel */}
+              <HeroPanel />
             </div>
           </div>
         </section>

@@ -8,6 +8,7 @@ import ccaCrest from "@assets/cca-crest_1781280688863.png";
 import heroCityHorizon from "@assets/generated_images/hero-city-horizon.png";
 import particleField from "@assets/generated_images/bg-particle-field.png";
 import { EcosystemDiagram } from "@/components/ecosystem-diagram";
+import { SiteHeader } from "@/components/site-header";
 import { Shield, Map, ClipboardCheck, Users, CheckCircle2, FileText, Scale, ArrowRight, ArrowUpRight, Activity, X, Award } from "lucide-react";
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef, useMemo } from "react";
@@ -67,7 +68,7 @@ export default function Home() {
 
   const scrollToForm = () => {
     const el = document.getElementById("schedule");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (el) el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
   };
 
   const containerVariants = {
@@ -104,23 +105,7 @@ export default function Home() {
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-xl">
-        <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
-            <img src={ccaLogo} alt="Contractor Compliance Authority" className="h-10 w-auto" />
-          </div>
-          <div className="flex items-center gap-6">
-            <nav className="hidden md:flex gap-6 text-sm uppercase tracking-wider font-semibold text-muted-foreground">
-              <a href="#services" className="hover:text-white transition-colors">Services</a>
-              <a href="#how-it-works" className="hover:text-white transition-colors">Process</a>
-              <a href="#about" className="hover:text-white transition-colors">Platform</a>
-            </nav>
-            <Button onClick={scrollToForm} className="glossy-pill rounded-full px-6 h-10 font-bold uppercase tracking-wide text-xs" data-testid="button-header-cta">
-              Schedule Review
-            </Button>
-          </div>
-        </div>
-      </header>
+      <SiteHeader onScheduleClick={scrollToForm} />
 
       <main className="flex-1 relative z-10">
         {/* Hero Section */}

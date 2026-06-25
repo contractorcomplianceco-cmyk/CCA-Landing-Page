@@ -13,6 +13,7 @@ import { Shield, ShieldCheck, Map, ClipboardCheck, Users, CheckCircle2, FileText
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef, useMemo } from "react";
 import { getZohoFormSrc } from "@/lib/zoho";
+import { MARKETING_SITE_URL, PRIVACY_POLICY_URL, TERMS_URL } from "@/lib/legal-links";
 
 function Reveal({
   children,
@@ -568,10 +569,24 @@ export default function Home() {
             <div>
               <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-6">Contact</h4>
               <ul className="space-y-4">
-                <li className="text-muted-foreground text-sm">813-761-0212</li>
+                <li>
+                  <a href="tel:813-761-0212" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                    813-761-0212
+                  </a>
+                </li>
                 <li>
                   <a href="mailto:info@contractor-compliance-authority.com" className="text-muted-foreground hover:text-primary transition-colors text-sm block truncate">
                     info@contractor-compliance-authority.com
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={MARKETING_SITE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                  >
+                    contractor-compliance-authority.com
                   </a>
                 </li>
               </ul>
@@ -581,8 +596,22 @@ export default function Home() {
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Contractor Compliance Authority. All rights reserved.</p>
             <div className="flex items-center gap-6">
-              <a href="#" className="text-sm text-muted-foreground hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-white transition-colors">Terms of Service</a>
+              <a
+                href={PRIVACY_POLICY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-white transition-colors"
+              >
+                Privacy Policy
+              </a>
+              <a
+                href={TERMS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-white transition-colors"
+              >
+                Terms of Service
+              </a>
             </div>
           </div>
         </div>

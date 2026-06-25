@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --navy: #1A2B4A;
+  --navy-deep: #0F1E35;
+  --navy-mid: #243554;
+  --teal: #0A8F8F;
+  --teal-hover: #0DA8A8;
+  --border: #D0D5DD;
+  --bg-light: #F4F6F9;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: #0F1E35; color: #fff; }
+
+.teal-gradient {
+  background: linear-gradient(135deg, #0A8F8F 0%, #0DA8A8 100%);
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.pulse-ring { animation: pulse-ring 2s ease-out infinite; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+.float { animation: float 4s ease-in-out infinite; }
+
+@keyframes aurora1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, -40px) scale(1.1); }
+}
+@keyframes aurora2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-40px, 60px) scale(0.9); }
+}
+.aurora1 { animation: aurora1 12s ease-in-out infinite; }
+.aurora2 { animation: aurora2 15s ease-in-out infinite; }
+
+.score-bar-fill {
+  transition: width 1.4s cubic-bezier(.4,0,.2,1);
+}

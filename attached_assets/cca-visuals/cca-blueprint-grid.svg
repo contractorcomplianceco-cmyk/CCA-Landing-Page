@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="bgFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#061826"/>
+      <stop offset="0.5" stop-color="#071822"/>
+      <stop offset="1" stop-color="#050F18"/>
+    </linearGradient>
+    <pattern id="minorGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1F6FEB" stroke-width="0.5" stroke-opacity="0.12"/>
+    </pattern>
+    <pattern id="majorGrid" width="200" height="200" patternUnits="userSpaceOnUse">
+      <path d="M200 0H0V200" fill="none" stroke="#1F6FEB" stroke-width="1" stroke-opacity="0.22"/>
+    </pattern>
+    <radialGradient id="gridMask" cx="50%" cy="0%" r="85%">
+      <stop offset="0" stop-color="#fff" stop-opacity="1"/>
+      <stop offset="0.55" stop-color="#fff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="fadeMask">
+      <rect width="1600" height="900" fill="url(#gridMask)"/>
+    </mask>
+    <radialGradient id="topGlow" cx="50%" cy="0%" r="60%">
+      <stop offset="0" stop-color="#1F6FEB" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#1F6FEB" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bgFade)"/>
+  <g mask="url(#fadeMask)">
+    <rect width="1600" height="900" fill="url(#minorGrid)"/>
+    <rect width="1600" height="900" fill="url(#majorGrid)"/>
+  </g>
+  <rect width="1600" height="900" fill="url(#topGlow)"/>
+</svg>

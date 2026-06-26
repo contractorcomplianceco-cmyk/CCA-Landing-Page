@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" fill="none" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <radialGradient id="eco-bg" cx="50%" cy="45%" r="70%">
+      <stop offset="0" stop-color="#0A2236"/>
+      <stop offset="0.6" stop-color="#071822"/>
+      <stop offset="1" stop-color="#050F18"/>
+    </radialGradient>
+    <radialGradient id="core-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#1F6FEB" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#1F6FEB" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#1F6FEB" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="chip" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0E2A40"/>
+      <stop offset="1" stop-color="#0A1F2F"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" rx="24" fill="url(#eco-bg)"/>
+
+  <!-- orbit rings -->
+  <g stroke="#1F6FEB" fill="none">
+    <circle cx="600" cy="400" r="150" stroke-opacity="0.18"/>
+    <circle cx="600" cy="400" r="250" stroke-opacity="0.13"/>
+    <circle cx="600" cy="400" r="350" stroke-opacity="0.08"/>
+  </g>
+
+  <!-- connection lines from core to nodes -->
+  <g stroke="#1F6FEB" stroke-opacity="0.28" stroke-width="1.5">
+    <line x1="600" y1="400" x2="600" y2="150"/>
+    <line x1="600" y1="400" x2="912" y2="248"/>
+    <line x1="600" y1="400" x2="980" y2="470"/>
+    <line x1="600" y1="400" x2="820" y2="640"/>
+    <line x1="600" y1="400" x2="380" y2="640"/>
+    <line x1="600" y1="400" x2="220" y2="470"/>
+    <line x1="600" y1="400" x2="288" y2="248"/>
+  </g>
+
+  <!-- core -->
+  <circle cx="600" cy="400" r="120" fill="url(#core-glow)"/>
+  <circle cx="600" cy="400" r="74" fill="#0A1F2F" stroke="#1F6FEB" stroke-opacity="0.6" stroke-width="2"/>
+  <g transform="translate(600 372)" stroke="#60A5FA" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="-9" y="-9" width="18" height="14" rx="3"/>
+    <line x1="0" y1="5" x2="0" y2="16"/>
+    <line x1="0" y1="16" x2="-22" y2="16"/>
+    <line x1="0" y1="16" x2="22" y2="16"/>
+    <line x1="-22" y1="16" x2="-22" y2="24"/>
+    <line x1="22" y1="16" x2="22" y2="24"/>
+    <rect x="-31" y="24" width="18" height="13" rx="3"/>
+    <rect x="13" y="24" width="18" height="13" rx="3"/>
+  </g>
+  <text x="600" y="430" text-anchor="middle" fill="#FFFFFF" font-size="20" font-weight="700" letter-spacing="1">CCA</text>
+  <text x="600" y="450" text-anchor="middle" fill="#8FB6D9" font-size="10" font-weight="600" letter-spacing="3">ECOSYSTEM</text>
+
+  <!-- satellite chips -->
+  <!-- helper layout via groups -->
+  <g>
+    <!-- Rose OS (top) -->
+    <g transform="translate(600 150)">
+      <rect x="-78" y="-22" width="156" height="44" rx="22" fill="url(#chip)" stroke="#1F6FEB" stroke-opacity="0.35"/>
+      <circle cx="-56" cy="0" r="4" fill="#60A5FA"/>
+      <text x="-44" y="5" fill="#E8F1FB" font-size="15" font-weight="600">Rose OS</text>
+    </g>
+    <!-- CCA BuildConnect (top right) -->
+    <g transform="translate(912 248)">
+      <rect x="-104" y="-22" width="208" height="44" rx="22" fill="url(#chip)" stroke="#1F6FEB" stroke-opacity="0.35"/>
+      <circle cx="-82" cy="0" r="4" fill="#60A5FA"/>
+      <text x="-70" y="5" fill="#E8F1FB" font-size="15" font-weight="600">CCA BuildConnect</text>
+    </g>
+    <!-- Tara OS (right) -->
+    <g transform="translate(980 470)">
+      <rect x="-72" y="-22" width="144" height="44" rx="22" fill="url(#chip)" stroke="#1F6FEB" stroke-opacity="0.35"/>
+      <circle cx="-50" cy="0" r="4" fill="#60A5FA"/>
+      <text x="-38" y="5" fill="#E8F1FB" font-size="15" font-weight="600">Tara OS</text>
+    </g>
+    <!-- CCA Audit Risk System (bottom right) -->
+    <g transform="translate(820 640)">
+      <rect x="-118" y="-22" width="236" height="44" rx="22" fill="url(#chip)" stroke="#1F6FEB" stroke-opacity="0.35"/>
+      <circle cx="-96" cy="0" r="4" fill="#60A5FA"/>
+      <text x="-84" y="5" fill="#E8F1FB" font-size="15" font-weight="600">CCA Audit Risk System</text>
+    </g>
+    <!-- Company Brain (bottom left) -->
+    <g transform="translate(380 640)">
+      <rect x="-92" y="-22" width="184" height="44" rx="22" fill="url(#chip)" stroke="#1F6FEB" stroke-opacity="0.35"/>
+      <circle cx="-70" cy="0" r="4" fill="#60A5FA"/>
+      <text x="-58" y="5" fill="#E8F1FB" font-size="15" font-weight="600">Company Brain</text>
+    </g>
+    <!-- CCA Client Portal (left) -->
+    <g transform="translate(220 470)">
+      <rect x="-100" y="-22" width="200" height="44" rx="22" fill="url(#chip)" stroke="#1F6FEB" stroke-opacity="0.35"/>
+      <circle cx="-78" cy="0" r="4" fill="#60A5FA"/>
+      <text x="-66" y="5" fill="#E8F1FB" font-size="15" font-weight="600">CCA Client Portal</text>
+    </g>
+    <!-- Future Learning Hub (top left) -->
+    <g transform="translate(288 248)">
+      <rect x="-104" y="-22" width="208" height="44" rx="22" fill="url(#chip)" stroke="#1F6FEB" stroke-opacity="0.35"/>
+      <circle cx="-82" cy="0" r="4" fill="#60A5FA"/>
+      <text x="-70" y="5" fill="#E8F1FB" font-size="15" font-weight="600">Future Learning Hub</text>
+    </g>
+  </g>
+
+  <!-- node dots on rings -->
+  <g fill="#60A5FA">
+    <circle cx="600" cy="172" r="3"/>
+    <circle cx="888" cy="262" r="3"/>
+    <circle cx="956" cy="470" r="3"/>
+    <circle cx="802" cy="618" r="3"/>
+    <circle cx="398" cy="618" r="3"/>
+    <circle cx="244" cy="470" r="3"/>
+    <circle cx="312" cy="262" r="3"/>
+  </g>
+</svg>

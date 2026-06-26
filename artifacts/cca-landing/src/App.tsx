@@ -3,18 +3,16 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   Shield, ChevronRight, CheckCircle2, Zap, Globe, FileText,
   Users, Building2, TrendingUp, Award, Clock,
-  Menu, X, ArrowRight, Star, Lock, Phone, Mail,
+  Menu, X, ArrowRight, Star, Phone, Mail,
   AlertTriangle, BarChart3, Layers, Settings, BookOpen,
 } from "lucide-react";
+import { ZohoIntakeEmbed } from "./components/ZohoIntakeEmbed";
 
 /* ─── Constants ─────────────────────────────────────────────────── */
 const TEAL = "#0A8F8F";
 const TEAL_HOVER = "#0DA8A8";
 const NAVY = "#1A2B4A";
 const NAVY_DEEP = "#0F1E35";
-const SUPABASE_URL = "https://nfnxquwljovhxclzyzrr.supabase.co";
-const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mbnhxdXdsam92aHhjbHp5enJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwODc5MTcsImV4cCI6MjA5NjY2MzkxN30.JzxGqxb3lg-vXheIYhDaITChNWQ1KPXHrxmoCD-dkYw";
-
 /* ─── Helpers ────────────────────────────────────────────────────── */
 function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef(null);
@@ -116,75 +114,11 @@ function Nav() {
   );
 }
 
-/* ─── Mini Contact Form (Hero) ────────────────────────────────────── */
-type MiniFormData = { firstName: string; lastName: string; email: string; phone: string; company: string; states: string; };
-
+/* ─── Hero Zoho Intake ────────────────────────────────────────────── */
 function HeroForm() {
-  const [form, setForm] = useState<MiniFormData>({ firstName: "", lastName: "", email: "", phone: "", company: "", states: "" });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
-
-  const update = (field: keyof MiniFormData) => (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm(f => ({ ...f, [field]: e.target.value }));
-
-  const inputStyle = { borderColor: "rgba(255,255,255,0.15)", backgroundColor: "rgba(255,255,255,0.06)" };
-  const inputClass = "w-full rounded-lg border px-3.5 py-2.5 text-sm text-white placeholder-gray-500 outline-none transition-colors";
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setError("");
-    try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/compliance_review_requests`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": SUPABASE_ANON,
-          "Authorization": `Bearer ${SUPABASE_ANON}`,
-          "Prefer": "return=minimal",
-        },
-        body: JSON.stringify({
-          first_name: form.firstName,
-          last_name: form.lastName,
-          email: form.email,
-          phone: form.phone,
-          company: form.company,
-          states: form.states ? [form.states] : [],
-          source: "contractor-landing-hero",
-        }),
-      });
-      if (res.ok || res.status === 409) {
-        setSubmitted(true);
-      } else {
-        setError("Something went wrong. Please try again.");
-      }
-    } catch {
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  if (submitted) {
-    return (
-      <div className="rounded-2xl border p-8 text-center" style={{ background: `${TEAL}0D`, borderColor: `${TEAL}44` }}>
-        <CheckCircle2 className="mx-auto h-12 w-12 mb-4" style={{ color: TEAL }} strokeWidth={1.5} />
-        <h3 className="text-xl font-bold text-white mb-2">Request Received</h3>
-        <p className="text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
-          A CCA compliance specialist will follow up within one business day.
-        </p>
-        <p className="text-xs mt-3" style={{ color: "rgba(255,255,255,0.4)" }}>
-          Questions? Call <a href="tel:813-761-0212" className="underline" style={{ color: TEAL }}>813-761-0212</a>
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div className="rounded-2xl border overflow-hidden shadow-2xl"
       style={{ background: "rgba(15,30,53,0.88)", borderColor: "rgba(10,143,143,0.35)", backdropFilter: "blur(20px)" }}>
-      {/* Form header */}
       <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: "rgba(255,255,255,0.07)", background: "rgba(10,143,143,0.08)" }}>
         <div className="flex items-center gap-2">
           <Shield className="h-4 w-4" style={{ color: TEAL }} strokeWidth={1.5} />
@@ -198,60 +132,7 @@ function HeroForm() {
           Secure intake
         </div>
       </div>
-      <form onSubmit={handleSubmit} className="p-5 space-y-3.5">
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="block text-xs font-semibold mb-1.5" style={{ color: "rgba(255,255,255,0.55)" }}>First Name *</label>
-            <input required value={form.firstName} onChange={update("firstName")}
-              onFocus={e => (e.target.style.borderColor = TEAL)} onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.15)")}
-              placeholder="John" className={inputClass} style={{ ...inputStyle }} />
-          </div>
-          <div>
-            <label className="block text-xs font-semibold mb-1.5" style={{ color: "rgba(255,255,255,0.55)" }}>Last Name *</label>
-            <input required value={form.lastName} onChange={update("lastName")}
-              onFocus={e => (e.target.style.borderColor = TEAL)} onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.15)")}
-              placeholder="Smith" className={inputClass} style={{ ...inputStyle }} />
-          </div>
-        </div>
-        <div>
-          <label className="block text-xs font-semibold mb-1.5" style={{ color: "rgba(255,255,255,0.55)" }}>Email *</label>
-          <input required type="email" value={form.email} onChange={update("email")}
-            onFocus={e => (e.target.style.borderColor = TEAL)} onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.15)")}
-            placeholder="john@company.com" className={inputClass} style={{ ...inputStyle }} />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="block text-xs font-semibold mb-1.5" style={{ color: "rgba(255,255,255,0.55)" }}>Phone</label>
-            <input type="tel" value={form.phone} onChange={update("phone")}
-              onFocus={e => (e.target.style.borderColor = TEAL)} onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.15)")}
-              placeholder="(813) 555-0100" className={inputClass} style={{ ...inputStyle }} />
-          </div>
-          <div>
-            <label className="block text-xs font-semibold mb-1.5" style={{ color: "rgba(255,255,255,0.55)" }}>States</label>
-            <input value={form.states} onChange={update("states")}
-              onFocus={e => (e.target.style.borderColor = TEAL)} onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.15)")}
-              placeholder="FL, TX, GA…" className={inputClass} style={{ ...inputStyle }} />
-          </div>
-        </div>
-        <div>
-          <label className="block text-xs font-semibold mb-1.5" style={{ color: "rgba(255,255,255,0.55)" }}>Company Name *</label>
-          <input required value={form.company} onChange={update("company")}
-            onFocus={e => (e.target.style.borderColor = TEAL)} onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.15)")}
-            placeholder="Smith Contracting LLC" className={inputClass} style={{ ...inputStyle }} />
-        </div>
-        {error && <p className="text-xs text-red-400">{error}</p>}
-        <button type="submit" disabled={submitting}
-          className="w-full rounded-lg py-3.5 text-sm font-bold transition-all disabled:opacity-60 flex items-center justify-center gap-2"
-          style={{ background: TEAL, color: "#fff" }}
-          onMouseOver={e => !submitting && (e.currentTarget.style.background = TEAL_HOVER)}
-          onMouseOut={e => (e.currentTarget.style.background = TEAL)}>
-          {submitting ? "Submitting…" : <><span>Request Compliance Review</span><ArrowRight className="h-4 w-4" /></>}
-        </button>
-        <div className="flex items-center justify-center gap-1.5 text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
-          <Lock className="h-3 w-3" />
-          <span>Secure &amp; confidential · No obligation</span>
-        </div>
-      </form>
+      <ZohoIntakeEmbed heightClass="h-[720px] sm:h-[680px]" />
     </div>
   );
 }
@@ -450,38 +331,10 @@ function Hero() {
 
 /* ─── E-book Strip ───────────────────────────────────────────────── */
 function EbookStrip() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubmitting(true);
-    try {
-      await fetch(`${SUPABASE_URL}/rest/v1/newsletter_subscribers`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": SUPABASE_ANON,
-          "Authorization": `Bearer ${SUPABASE_ANON}`,
-          "Prefer": "return=minimal",
-        },
-        body: JSON.stringify({ email, source: "contractor-landing-ebook" }),
-      });
-      setSubmitted(true);
-    } catch {
-      setSubmitted(true); // still show success — they'll get follow-up
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   return (
     <section id="ebook" className="py-14 border-y" style={{ background: `${TEAL}0E`, borderColor: `${TEAL}25` }}>
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Left */}
           <div className="flex items-start gap-5 max-w-xl">
             <div className="shrink-0 flex h-14 w-14 items-center justify-center rounded-2xl"
               style={{ background: `${TEAL}22`, border: `1px solid ${TEAL}44` }}>
@@ -495,32 +348,18 @@ function EbookStrip() {
               </p>
             </div>
           </div>
-          {/* Right — email capture */}
           <div className="w-full md:w-auto md:min-w-[360px]">
-            {submitted ? (
-              <div className="flex items-center gap-3 rounded-xl px-5 py-4" style={{ background: `${TEAL}18`, border: `1px solid ${TEAL}44` }}>
-                <CheckCircle2 className="h-5 w-5 shrink-0" style={{ color: TEAL }} strokeWidth={1.5} />
-                <span className="text-sm font-medium text-white">Check your inbox — we're sending it now.</span>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex gap-2">
-                <input
-                  type="email" required value={email} onChange={e => setEmail(e.target.value)}
-                  placeholder="Your work email"
-                  className="flex-1 rounded-lg border bg-transparent px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors"
-                  style={{ borderColor: `${TEAL}44`, backgroundColor: "rgba(255,255,255,0.06)" }}
-                  onFocus={e => (e.target.style.borderColor = TEAL)}
-                  onBlur={e => (e.target.style.borderColor = `${TEAL}44`)}
-                />
-                <button type="submit" disabled={submitting}
-                  className="shrink-0 rounded-lg px-5 py-3 text-sm font-bold transition-all disabled:opacity-60"
-                  style={{ background: TEAL, color: "#fff" }}
-                  onMouseOver={e => !submitting && (e.currentTarget.style.background = TEAL_HOVER)}
-                  onMouseOut={e => (e.currentTarget.style.background = TEAL)}>
-                  {submitting ? "Sending…" : "Get the Guide →"}
-                </button>
-              </form>
-            )}
+            <a href="#contact"
+              className="inline-flex w-full md:w-auto items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-sm font-bold transition-all"
+              style={{ background: TEAL, color: "#fff" }}
+              onMouseOver={e => (e.currentTarget.style.background = TEAL_HOVER)}
+              onMouseOut={e => (e.currentTarget.style.background = TEAL)}>
+              Get the Guide
+              <ArrowRight className="h-4 w-4" />
+            </a>
+            <p className="mt-2 text-center md:text-left text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
+              Request your copy via our secure intake form below.
+            </p>
           </div>
         </div>
       </div>
@@ -1038,67 +877,7 @@ function Advantage() {
 }
 
 /* ─── Contact Form ───────────────────────────────────────────────── */
-type FormData = {
-  firstName: string; lastName: string; email: string; phone: string;
-  company: string; states: string; licenseTypes: string; notes: string;
-};
-
 function ContactForm() {
-  const [form, setForm] = useState<FormData>({
-    firstName: "", lastName: "", email: "", phone: "",
-    company: "", states: "", licenseTypes: "", notes: "",
-  });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
-
-  const update = (field: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-    setForm(f => ({ ...f, [field]: e.target.value }));
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setError("");
-    try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/compliance_review_requests`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": SUPABASE_ANON,
-          "Authorization": `Bearer ${SUPABASE_ANON}`,
-          "Prefer": "return=minimal",
-        },
-        body: JSON.stringify({
-          first_name: form.firstName,
-          last_name: form.lastName,
-          email: form.email,
-          phone: form.phone,
-          company: form.company,
-          states: form.states ? form.states.split(",").map(s => s.trim()) : [],
-          license_types: form.licenseTypes ? form.licenseTypes.split(",").map(s => s.trim()) : [],
-          notes: form.notes,
-          source: "contractor-landing-bottom",
-        }),
-      });
-      if (res.ok || res.status === 409) {
-        setSubmitted(true);
-      } else {
-        setError("Something went wrong. Please try again or call us at 813-761-0212.");
-      }
-    } catch {
-      setError("Something went wrong. Please try again or call us at 813-761-0212.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const inputClass = "w-full rounded-lg border bg-transparent px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors focus:border-teal-500";
-  const inputStyle = { borderColor: "rgba(255,255,255,0.12)", backgroundColor: "rgba(255,255,255,0.04)" };
-  const inputFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-    (e.target.style.borderColor = TEAL);
-  const inputBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-    (e.target.style.borderColor = "rgba(255,255,255,0.12)");
-
   return (
     <section id="contact" className="py-24" style={{ background: NAVY_DEEP }}>
       <div className="mx-auto max-w-3xl px-6">
@@ -1117,104 +896,24 @@ function ContactForm() {
             ))}
           </div>
         </Reveal>
-
-        {submitted ? (
-          <Reveal>
-            <div className="rounded-2xl border p-12 text-center" style={{ background: `${TEAL}0D`, borderColor: `${TEAL}44` }}>
-              <CheckCircle2 className="mx-auto h-16 w-16 mb-6" style={{ color: TEAL }} strokeWidth={1.5} />
-              <h3 className="text-2xl font-bold text-white mb-3">Request Received</h3>
-              <p className="text-lg mb-2" style={{ color: "rgba(255,255,255,0.7)" }}>
-                A CCA compliance specialist will be in touch within one business day.
-              </p>
-              <p className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
-                Questions? Call us at <a href="tel:813-761-0212" className="underline" style={{ color: TEAL }}>813-761-0212</a>
-              </p>
-            </div>
-          </Reveal>
-        ) : (
-          <Reveal>
-            <div className="rounded-2xl border p-8" style={{ background: "rgba(255,255,255,0.03)", borderColor: "rgba(255,255,255,0.1)" }}>
-              <div className="flex items-center gap-3 mb-8 pb-5 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-                <div className="h-8 w-8 rounded-lg flex items-center justify-center" style={{ background: `${TEAL}22`, border: `1px solid ${TEAL}44` }}>
-                  <Shield className="h-4 w-4" style={{ color: TEAL }} strokeWidth={1.5} />
-                </div>
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: TEAL }}>Compliance Review Request</span>
-                <div className="ml-auto flex items-center gap-1.5 text-xs" style={{ color: TEAL }}>
-                  <span className="relative flex h-2 w-2">
-                    <span className="pulse-ring absolute inline-flex h-full w-full rounded-full" style={{ background: TEAL }} />
-                    <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: TEAL }} />
-                  </span>
-                  Secure intake
-                </div>
+        <Reveal>
+          <div className="rounded-2xl border overflow-hidden" style={{ background: "rgba(255,255,255,0.03)", borderColor: "rgba(255,255,255,0.1)" }}>
+            <div className="flex items-center gap-3 px-8 py-5 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+              <div className="h-8 w-8 rounded-lg flex items-center justify-center" style={{ background: `${TEAL}22`, border: `1px solid ${TEAL}44` }}>
+                <Shield className="h-4 w-4" style={{ color: TEAL }} strokeWidth={1.5} />
               </div>
-
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-xs font-semibold mb-2" style={{ color: "rgba(255,255,255,0.6)" }}>First Name *</label>
-                    <input required value={form.firstName} onChange={update("firstName")} onFocus={inputFocus} onBlur={inputBlur}
-                      placeholder="John" className={inputClass} style={{ ...inputStyle }} />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold mb-2" style={{ color: "rgba(255,255,255,0.6)" }}>Last Name *</label>
-                    <input required value={form.lastName} onChange={update("lastName")} onFocus={inputFocus} onBlur={inputBlur}
-                      placeholder="Smith" className={inputClass} style={{ ...inputStyle }} />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-xs font-semibold mb-2" style={{ color: "rgba(255,255,255,0.6)" }}>Email *</label>
-                    <input required type="email" value={form.email} onChange={update("email")} onFocus={inputFocus} onBlur={inputBlur}
-                      placeholder="john@company.com" className={inputClass} style={{ ...inputStyle }} />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold mb-2" style={{ color: "rgba(255,255,255,0.6)" }}>Phone</label>
-                    <input type="tel" value={form.phone} onChange={update("phone")} onFocus={inputFocus} onBlur={inputBlur}
-                      placeholder="(813) 555-0100" className={inputClass} style={{ ...inputStyle }} />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold mb-2" style={{ color: "rgba(255,255,255,0.6)" }}>Company Name *</label>
-                  <input required value={form.company} onChange={update("company")} onFocus={inputFocus} onBlur={inputBlur}
-                    placeholder="Smith Contracting LLC" className={inputClass} style={{ ...inputStyle }} />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold mb-2" style={{ color: "rgba(255,255,255,0.6)" }}>States of Operation</label>
-                  <input value={form.states} onChange={update("states")} onFocus={inputFocus} onBlur={inputBlur}
-                    placeholder="e.g. FL, TX, GA, NC" className={inputClass} style={{ ...inputStyle }} />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold mb-2" style={{ color: "rgba(255,255,255,0.6)" }}>Compliance Areas of Concern</label>
-                  <input value={form.licenseTypes} onChange={update("licenseTypes")} onFocus={inputFocus} onBlur={inputBlur}
-                    placeholder="e.g. Licensing, DOT, OSHA, DOR, SOS, Government Contracting"
-                    className={inputClass} style={{ ...inputStyle }} />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold mb-2" style={{ color: "rgba(255,255,255,0.6)" }}>Additional Notes</label>
-                  <textarea value={form.notes} onChange={update("notes")}
-                    onFocus={e => (e.target.style.borderColor = TEAL)} onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.12)")}
-                    placeholder="Tell us about your current compliance situation or specific questions..."
-                    rows={4}
-                    className={`${inputClass} resize-none`} style={{ ...inputStyle }} />
-                </div>
-
-                {error && <p className="text-sm text-red-400">{error}</p>}
-
-                <button type="submit" disabled={submitting}
-                  className="w-full rounded-lg py-4 text-sm font-bold transition-all disabled:opacity-60"
-                  style={{ background: TEAL, color: "#fff" }}
-                  onMouseOver={e => !submitting && (e.currentTarget.style.background = TEAL_HOVER)}
-                  onMouseOut={e => (e.currentTarget.style.background = TEAL)}>
-                  {submitting ? "Submitting..." : "Submit Compliance Review Request →"}
-                </button>
-
-                <p className="text-center text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
-                  By submitting, you consent to be contacted by CCA. Secure & confidential.
-                </p>
-              </form>
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: TEAL }}>Compliance Review Request</span>
+              <div className="ml-auto flex items-center gap-1.5 text-xs" style={{ color: TEAL }}>
+                <span className="relative flex h-2 w-2">
+                  <span className="pulse-ring absolute inline-flex h-full w-full rounded-full" style={{ background: TEAL }} />
+                  <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: TEAL }} />
+                </span>
+                Secure intake
+              </div>
             </div>
-          </Reveal>
-        )}
+            <ZohoIntakeEmbed heightClass="h-[1100px] sm:h-[1000px]" />
+          </div>
+        </Reveal>
       </div>
     </section>
   );

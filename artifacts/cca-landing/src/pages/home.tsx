@@ -154,7 +154,7 @@ export default function Home() {
                 </motion.h1>
                 
                 <motion.p variants={itemVariants} className="text-xl text-muted-foreground mb-10 leading-relaxed max-w-xl">
-                  Uncover hidden licensing and compliance risk across all 50 states. We provide clear next steps, organized compliance, and risk-managed execution.
+                  Uncover hidden licensing and compliance risk across all 50 states with the CCA Compliance Risk Audit™. We provide clear next steps, organized compliance, and risk-managed execution.
                 </motion.p>
                 
                 <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
@@ -245,7 +245,7 @@ export default function Home() {
                 },
                 {
                   icon: Shield,
-                  title: "Compliance Risk Audit",
+                  title: "CCA Compliance Risk Audit™",
                   desc: "Structured review of licenses, entity, qualifiers, and documentation to prevent delays or fines."
                 },
                 {
@@ -391,7 +391,9 @@ export default function Home() {
             <Reveal className="text-center mb-16">
               <div className="text-primary text-xs font-bold uppercase tracking-widest mb-4">Compliance Intelligence</div>
               <h2 className="text-4xl font-bold text-white mb-4">Know Your Compliance Risk Score</h2>
-              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Our proprietary systems and expert team monitor the details that matter — so you can focus on building your business.</p>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                The CCA Compliance Risk Audit™ generates a proprietary score across every domain we monitor — so you can focus on building your business.
+              </p>
             </Reveal>
 
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
@@ -497,8 +499,10 @@ export default function Home() {
                 <Activity className="w-3.5 h-3.5" />
                 <span>Initialize</span>
               </div>
-              <h2 className="text-4xl font-bold text-white mb-6">Schedule Your Compliance Review</h2>
-              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Provide your details below to initialize a comprehensive review of your current licensing and compliance standing.</p>
+              <h2 className="text-4xl font-bold text-white mb-6">Request Your CCA Compliance Risk Audit™</h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                Provide your details below to begin your CCA Compliance Risk Audit™ — a comprehensive review of your current licensing and compliance standing.
+              </p>
             </Reveal>
 
             {/* Public-appropriate trust signals */}
